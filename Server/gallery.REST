@@ -1,5 +1,5 @@
-GET http://localhost:3000/gallery
+GET http://localhost:3000/gallery/Jonnie%20M%C3%B6ller
 
 ###
 
-DELETE http://localhost:3000/gallery
+DELETE http://localhost:3000/gallery/Jonnie%20M%C3%B6ller

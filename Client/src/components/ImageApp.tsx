@@ -38,6 +38,7 @@ export const ImageApp = ({ setSearchResults }: ImageAppProps) => {
       const items = data.items.map((item: any) => ({
         link: item.link,
         title: item.title,
+        image: item.image,
       }));
 
       setSearchResults(items);

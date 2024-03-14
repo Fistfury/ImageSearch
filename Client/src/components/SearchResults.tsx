@@ -1,22 +1,43 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
+
+export interface Image {
+    byteSize: number;
+}
 
 export interface Item {
   link: string;
   title: string;
+  image: Image;
+  
 }
 export interface SearchResultsProps {
   items: Item[];
 }
 
 export const SearchResults = ({ items }: SearchResultsProps) => {
-    const handleImageClick = async (item: Item) => {
-        try {
-            await axios.post('http://localhost:3000/gallery', item);
+    const { user } = useAuth0();
 
+    
+
+    const handleImageClick = async (item: Item) => {
+        console.log("Image clicked", item)
+        console.log("Image byteSize", item.image.byteSize);
+        try {
+            const response = await axios.post('http://localhost:3000/gallery', {
+                user: user?.name,
+                savedPicture: [{ 
+                    title: item.title,
+                    byteSize: item.image.byteSize,
+                    url: item.link
+                }]
+            });
+
+            console.log("Image saved", response.data);
         } catch (error) {
-            console.error("Failed to save image", error)
+            console.error("Failed to save image", error);
         }
-    }
+    };
 
 
   return (
