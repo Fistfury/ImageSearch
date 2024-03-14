@@ -19,10 +19,10 @@ export const Profile = () => {
         <img
           src={user?.picture}
           alt={user?.name}
-          className="w-10 h-10 rounded-full" // adjust w- and h- as needed for size
+          className="w-8 h-8 rounded-full" // adjust w- and h- as needed for size
         />
         <div>
-          <h2 className="text-sm font-bold">{user?.name}</h2>
+          <h2 className="text-xs font-bold text-zinc-300">{user?.name}</h2>
         </div>
       </div>
     );

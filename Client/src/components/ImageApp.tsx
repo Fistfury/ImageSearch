@@ -1,20 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
+import { Item } from "./SearchResults";
+import axios from "axios";
 
 // SökMotorId = "34f14d92fbdae4dc1"
-interface Item {
-  link: string;
-  title: string;
+interface ImageAppProps {
+  setSearchResults: (value: Item[] | null) => void;
 }
-interface SearchResults {
-  items: Item[];
-}
-export const ImageApp = () => {
+export const ImageApp = ({ setSearchResults }: ImageAppProps) => {
   const { isAuthenticated } = useAuth0();
   const [inputValue, setInputValue] = useState("");
-  const [searchResults, setSearchResults] = useState<SearchResults | null>(
-    null
-  );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -24,18 +19,28 @@ export const ImageApp = () => {
     if (!searchQuery) return;
 
     try {
-      const response = await fetch(
-        `https://www.googleapis.com/customsearch/v1?key=${
-          import.meta.env.VITE_GOOGLE_API_KEY
-        }&cx=${
-          import.meta.env.VITE_SEARCH_MOTOR_ID
-        }&num=10&searchType=image&q=${searchQuery}`
+      const response = await axios.get(
+        `https://www.googleapis.com/customsearch/v1`,
+        {
+          params: {
+            key: import.meta.env.VITE_GOOGLE_API_KEY,
+            cx: import.meta.env.VITE_SEARCH_MOTOR_ID,
+            num: 10,
+            searchType: "image",
+            q: searchQuery,
+          },
+        }
       );
 
-      const data = await response.json();
+      const data = response.data;
       console.log(data);
 
-      setSearchResults(data);
+      const items = data.items.map((item: any) => ({
+        link: item.link,
+        title: item.title,
+      }));
+
+      setSearchResults(items);
     } catch (error) {
       console.error("Fetching failed", error);
     }
@@ -44,9 +49,8 @@ export const ImageApp = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     search(inputValue);
-   setInputValue("");
+    setInputValue("");
   };
-  
 
   return (
     isAuthenticated && (
@@ -62,28 +66,12 @@ export const ImageApp = () => {
             />
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r"
+              className="bg-brightLavender hover:bg-electricPurple text-white font-bold py-2 px-4 rounded-r"
             >
               Search
             </button>
           </div>
         </form>
-        {searchResults && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {searchResults.items.map((item) => (
-              <div
-                key={item.link}
-                className="border rounded shadow-lg overflow-hidden"
-              >
-                <img
-                  src={item.link}
-                  alt={item.title}
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     )
   );

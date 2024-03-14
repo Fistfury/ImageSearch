@@ -1,28 +1,61 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
-import { LoginBtn } from "./components/LoginBtn";
 import { LogoutBtn } from "./components/LogoutBtn";
 import { Profile } from "./components/Profile";
-import { ImageApp } from "./components/ImageApp";
+import { Hero } from "./components/Hero/Hero";
+import { useState } from "react";
+import { Item, SearchResults } from "./components/SearchResults";
+import { NavLink, Route, Routes } from "react-router-dom";
+import { Gallery } from "./components/Gallery";
 
 function App() {
   const { isAuthenticated } = useAuth0();
+  const [searchResults, setSearchResults] = useState<Item[] | null>(null);
 
   return (
     <>
-      <div className="flex flex-col h-screen justify-between">
-        <nav className="bg-gray-800 p-4 text-white">
-          {isAuthenticated ? (
-            <Profile />
-          ) : (
-            <h1 className="text-xl">Please log in</h1>
-          )}
+      <div className=" flex flex-col h-screen justify-between">
+        <nav className="bg-jet p-4 text-white flex justify-end">
+          <div>
+            {isAuthenticated && (
+              <>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `mr-4 ${isActive ? "underline text-brightLavender" : ""}`
+                  }
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  to="/gallery"
+                  className={({ isActive }) =>
+                    `mr-4 ${isActive ? "underline text-brightLavender" : ""}`
+                  }
+                >
+                  Gallery
+                </NavLink>
+              </>
+            )}
+          </div>
+          {isAuthenticated ? <Profile /> : ""}
         </nav>
         <main className="px-4 py-8 flex-grow">
-          <h1 className="text-4xl font-bold text-center mb-6">Hello there</h1>
-          {isAuthenticated ? <ImageApp /> : <LoginBtn />}
+          <Routes>
+            {" "}
+            <Route
+              path="/"
+              element={
+                <div className="flex flex-col items-stretch space-y-10">
+                  <Hero setSearchResults={setSearchResults} />
+                  {searchResults && <SearchResults items={searchResults} />}
+                </div>
+              }
+            />
+            <Route path="/gallery" element={<Gallery />} />
+          </Routes>
         </main>
-        <footer className="p-4">
+        <footer className="bg-jet p-4">
           <div className="flex justify-center">
             {isAuthenticated ? <LogoutBtn /> : ""}
           </div>

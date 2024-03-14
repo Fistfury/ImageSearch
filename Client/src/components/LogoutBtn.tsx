@@ -7,8 +7,8 @@ export const LogoutBtn = () => {
     <button
       type="button"
       className="
-bg-blue-500 
-hover:bg-blue-700 
+bg-brightLavender
+hover:bg-electricPurple
 text-white 
 font-bold 
 py-2 
