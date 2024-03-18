@@ -7,7 +7,7 @@ export const LogoutBtn = () => {
     <button
       type="button"
       className="
-bg-brightLavender
+bg-darkGreen
 hover:bg-electricPurple
 text-white 
 font-bold 

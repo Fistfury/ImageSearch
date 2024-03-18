@@ -1,15 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-        jet: '#343a40', // dark grey
-        brightLavender: '#7c4dff', // deep purple
-        electricPurple: '#b388ff', // light purple
+        jet: "#3b533b", // dark grey
+        darkGreen: "#8da183", // deep purple
+        electricPurple: "#748d9b",
+        whiteText: "#fafafa", // White
         // Add other colors as needed
       },
     },

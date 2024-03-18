@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
 import { Item } from "./SearchResults";
 import axios from "axios";
+import {MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 // SökMotorId = "34f14d92fbdae4dc1"
 interface ImageAppProps {
@@ -10,9 +11,13 @@ interface ImageAppProps {
 export const ImageApp = ({ setSearchResults }: ImageAppProps) => {
   const { isAuthenticated } = useAuth0();
   const [inputValue, setInputValue] = useState("");
+  const [searchTime, setSearchTime] = useState("");
+  const [correctedQuery, setCorrectedQuery] = useState("");
+  const [showCorrected, setShowCorrected] = useState(true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    setShowCorrected(true);
   };
 
   const search = async (searchQuery: string) => {
@@ -41,10 +46,26 @@ export const ImageApp = ({ setSearchResults }: ImageAppProps) => {
         image: item.image,
       }));
 
+      const searchInformation = data.searchInformation;
+      if (searchInformation) {
+        setSearchTime(searchInformation.searchTime.toFixed(2));
+      }
+
+      const spelling = data.spelling;
+      if (spelling?.correctedQuery) {
+        setCorrectedQuery(spelling.correctedQuery);
+      } else {
+        setCorrectedQuery("");
+      }
+
       setSearchResults(items);
     } catch (error) {
       console.error("Fetching failed", error);
     }
+  };
+  const handleCorrectedQuery = () => {
+    search(correctedQuery);
+    setShowCorrected(false);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,12 +88,31 @@ export const ImageApp = ({ setSearchResults }: ImageAppProps) => {
             />
             <button
               type="submit"
-              className="bg-brightLavender hover:bg-electricPurple text-white font-bold py-2 px-4 rounded-r"
+              className="bg-darkGreen hover:bg-electricPurple text-white font-bold py-2 px-4 rounded-r"
             >
-              Search
+              <MagnifyingGlassIcon className="h-5 w-5 text-gray-600" />
             </button>
           </div>
         </form>
+        <div className="text-center my-4">
+          {searchTime && (
+            <div className="text-lg text-whiteText">
+              Search time: {searchTime} seconds
+            </div>
+          )}
+          {showCorrected && correctedQuery && (
+            <div className="text-lg text-whiteText">
+              Did you mean:
+              <button
+                onClick={handleCorrectedQuery}
+                className="text-blue-600 hover:underline ml-2 mr-2"
+              >
+                {correctedQuery}
+              </button>
+              ?
+            </div>
+          )}
+        </div>
       </div>
     )
   );

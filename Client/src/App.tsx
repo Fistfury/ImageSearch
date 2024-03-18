@@ -12,17 +12,35 @@ function App() {
   const { isAuthenticated } = useAuth0();
   const [searchResults, setSearchResults] = useState<Item[] | null>(null);
 
+  // const navLinks = isAuthenticated && (
+  //   <nav className="bg-transparent text-white absolute top-4 right-4 z-20">
+  //     <NavLink
+  //       to="/"
+  //       className={({ isActive }) => `${isActive ? "underline" : ""} mx-2`}
+  //     >
+  //       Home
+  //     </NavLink>
+  //     <NavLink
+  //       to="/gallery"
+  //       className={({ isActive }) => `${isActive ? "underline" : ""} mx-2`}
+  //     >
+  //       Gallery
+  //     </NavLink>
+  //     <Profile />
+  //   </nav>
+  // );
+
   return (
     <>
       <div className=" flex flex-col h-screen justify-between">
-        <nav className="bg-jet p-4 text-white flex justify-end">
+        <nav className="bg-jet p-4 text-darkGreen flex justify-end">
           <div>
             {isAuthenticated && (
               <>
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
-                    `mr-4 ${isActive ? "underline text-brightLavender" : ""}`
+                    `mr-4 ${isActive ? "underline text-whiteText" : ""}`
                   }
                 >
                   Home
@@ -30,7 +48,7 @@ function App() {
                 <NavLink
                   to="/gallery"
                   className={({ isActive }) =>
-                    `mr-4 ${isActive ? "underline text-brightLavender" : ""}`
+                    `mr-4 ${isActive ? "underline text-whiteText" : ""}`
                   }
                 >
                   Gallery

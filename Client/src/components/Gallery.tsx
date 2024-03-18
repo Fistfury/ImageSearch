@@ -36,6 +36,21 @@ export const Gallery = () => {
     fetchUserPictures();
   }, [user]);
 
+  const handleDeleteClick = async (picture: Item) => {
+    if (user && user.name && window.confirm("Are you sure you want to delete this picture?"))
+     { 
+      const username = user.name;
+      try {
+        await axios.delete(`http://localhost:3000/gallery/${encodeURIComponent(username)}`, {
+          data: { title: picture.title },
+        });
+        setSavedPictures(savedPictures.filter((p) => p.title !== picture.title));
+      } catch (error) {
+        console.error("Failed to delete image", error);
+      }
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {savedPictures.map((picture, index) => (
@@ -45,6 +60,7 @@ export const Gallery = () => {
             alt={picture.title}
             className="w-full h-48 object-cover"
           />
+            <button onClick={() => handleDeleteClick(picture)}>Delete</button>
         </div>
       ))}
     </div>

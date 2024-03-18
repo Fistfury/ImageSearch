@@ -52,7 +52,7 @@ app.post("/gallery", (req, res) => {
   try {
     fs.writeFileSync(
       path.join(__dirname, "users.json"),
-      JSON.stringify(users),
+      JSON.stringify(users, null, 2),
       "utf8"
     );
     res.status(201).send("Image saved.");
@@ -74,6 +74,32 @@ app.get("/gallery/:username", (req, res) => {
   }
 
   res.send(userObj.savedPicture);
+});
+
+app.delete("/gallery/:username", (req, res) => {
+  const username = req.params.username;
+  const { title } = req.body;
+
+  let userObj = users.find((u) => u.users === username);
+  if (!userObj) {
+    return res.status(404).send("User not found");
+  }
+
+  userObj.savedPicture = userObj.savedPicture.filter(
+    (picture) => picture.title !== title
+  );
+
+  try {
+    fs.writeFileSync(
+      path.join(__dirname, "users.json"),
+      JSON.stringify(users, null, 2),
+      "utf8"
+    );
+    res.status(200).send("Img deleted");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
 });
 
 app.listen(port, () => console.log(`Server is up...${port}`));
