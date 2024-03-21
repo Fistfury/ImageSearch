@@ -5,10 +5,16 @@ module.exports = {
     extend: {
       colors: {
         jet: "#3b533b", // dark grey
-        darkGreen: "#8da183", // deep purple
-        electricPurple: "#748d9b",
+        darkGreen: "#8da183", // darkGreen
+        lightGreen: "#748d9b", // lightGreen
         whiteText: "#fafafa", // White
-        // Add other colors as needed
+      },
+      backgroundImage: (theme) => ({
+        "hero-image": "url('/images/treesForest.jpg')",
+      }),
+      backgroundPosition: {
+        "center-100": "center bottom",
+        "center-bottom": "center 600px",
       },
     },
   },

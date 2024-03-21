@@ -40,16 +40,16 @@ export const SearchResults = ({ items }: SearchResultsProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="flex flex-wrap justify-center">
         {items.map((item) => (
           <div
             key={item.link}
-            className="border rounded shadow-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
+            className="flex border rounded shadow-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-2xl m-2"
           >
             <img
               src={item.link}
               alt={item.title}
-              className="w-full h-48 object-cover"
+              className="w-auto h-36 object-cover"
               onClick={() => handleImageClick(item)}
             />
           </div>

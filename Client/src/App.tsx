@@ -12,24 +12,6 @@ function App() {
   const { isAuthenticated } = useAuth0();
   const [searchResults, setSearchResults] = useState<Item[] | null>(null);
 
-  // const navLinks = isAuthenticated && (
-  //   <nav className="bg-transparent text-white absolute top-4 right-4 z-20">
-  //     <NavLink
-  //       to="/"
-  //       className={({ isActive }) => `${isActive ? "underline" : ""} mx-2`}
-  //     >
-  //       Home
-  //     </NavLink>
-  //     <NavLink
-  //       to="/gallery"
-  //       className={({ isActive }) => `${isActive ? "underline" : ""} mx-2`}
-  //     >
-  //       Gallery
-  //     </NavLink>
-  //     <Profile />
-  //   </nav>
-  // );
-
   return (
     <>
       <div className=" flex flex-col h-screen justify-between">

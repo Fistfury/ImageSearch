@@ -8,7 +8,7 @@ export const LoginBtn = () => {
         type="button"
         className="
     bg-darkGreen
-    hover:bg-electricPurple
+    hover:bg-lightGreen
     text-white 
     font-bold 
     py-2 

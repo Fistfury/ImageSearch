@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -37,14 +38,20 @@ export const Gallery = () => {
   }, [user]);
 
   const handleDeleteClick = async (picture: Item) => {
-    if (user && user.name && window.confirm("Are you sure you want to delete this picture?"))
-     { 
+    if (
+      user &&
+      user.name &&
+      window.confirm("Are you sure you want to delete this picture?")
+    ) {
       const username = user.name;
+      const userPicture = picture.url;
       try {
-        await axios.delete(`http://localhost:3000/gallery/${encodeURIComponent(username)}`, {
-          data: { title: picture.title },
-        });
-        setSavedPictures(savedPictures.filter((p) => p.title !== picture.title));
+        await axios.delete(
+          `http://localhost:3000/gallery/${encodeURIComponent(
+            username
+          )}/${encodeURIComponent(userPicture)}`
+        );
+        setSavedPictures(savedPictures.filter((p) => p.url !== picture.url));
       } catch (error) {
         console.error("Failed to delete image", error);
       }
@@ -52,15 +59,21 @@ export const Gallery = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="flex flex-wrap justify-center">
       {savedPictures.map((picture, index) => (
-        <div key={index} className="border rounded shadow-lg overflow-hidden">
+        <div
+          key={index}
+          className="flex flex-col border rounded shadow-lg overflow-hidden m-2 "
+        >
           <img
             src={picture.url}
             alt={picture.title}
-            className="w-full h-48 object-cover"
+            className="w-full h-36 object-cover"
           />
-            <button onClick={() => handleDeleteClick(picture)}>Delete</button>
+          <button onClick={() => handleDeleteClick(picture)}
+          className="flex justify-center items-center">
+            <TrashIcon className=" h-8 w-8 mt-2 text-darkGreen transition-transform duration-300 hover:scale-105 hover:shadow-2xl" />
+          </button>
         </div>
       ))}
     </div>

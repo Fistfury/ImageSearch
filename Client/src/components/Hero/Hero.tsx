@@ -5,19 +5,21 @@ import { Item } from "../SearchResults";
 
 interface HeroProps {
   setSearchResults: (value: Item[] | null) => void;
-  
 }
 
 export const Hero = ({ setSearchResults }: HeroProps) => {
   const { isAuthenticated } = useAuth0();
-  const treesForest = "/images/treesForest.jpg";
+  // const treesForest = "/images/treesForest.jpg";
   return (
-   
     <div
-      className="relative flex flex-col items-center justify-center h-screen bg-cover"
-      style={{ backgroundImage: `url(${treesForest})`, height: "50vh" }}
+      className="relative flex flex-col items-center justify-center h-screen bg-cover bg-hero-image bg-center-100 lg:bg-center-bottom"
+      style={{
+        // backgroundImage: `url(${treesForest})`,
+        // backgroundPosition: "center 600px lg:center bottom",
+        height: "50vh"
+      }}
     >
-      <h1 className="z-10 text-whiteText text-4xl lg:text-6xl font-bold mb-3">
+      <h1 className="z-10 text-whiteText text-2xl lg:text-4xl font-bold mb-3">
         Seek and you shall find
       </h1>
       {isAuthenticated ? (
@@ -29,7 +31,6 @@ export const Hero = ({ setSearchResults }: HeroProps) => {
           <LoginBtn />
         </div>
       )}
-      
     </div>
   );
 };

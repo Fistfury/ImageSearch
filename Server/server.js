@@ -76,18 +76,21 @@ app.get("/gallery/:username", (req, res) => {
   res.send(userObj.savedPicture);
 });
 
-app.delete("/gallery/:username", (req, res) => {
-  const username = req.params.username;
-  const { title } = req.body;
+app.delete("/gallery/:username/:pictureUrl", (req, res) => {
+  const { username, pictureUrl } = req.params;
+  const userObj = users.find((u) => u.user === username);
 
-  let userObj = users.find((u) => u.users === username);
   if (!userObj) {
     return res.status(404).send("User not found");
   }
 
-  userObj.savedPicture = userObj.savedPicture.filter(
-    (picture) => picture.title !== title
-  );
+  const pictureIndex = userObj.savedPicture.findIndex((p) => p.url === pictureUrl);
+
+  if (pictureIndex === -1) {
+    return res.status(404).send("Picture not found.");
+  }
+
+  userObj.savedPicture.splice(pictureIndex, 1);
 
   try {
     fs.writeFileSync(
@@ -95,7 +98,7 @@ app.delete("/gallery/:username", (req, res) => {
       JSON.stringify(users, null, 2),
       "utf8"
     );
-    res.status(200).send("Img deleted");
+    res.status(200).send("Picture deleted");
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
