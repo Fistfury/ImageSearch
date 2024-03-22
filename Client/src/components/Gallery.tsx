@@ -26,7 +26,7 @@ export const Gallery = () => {
           const response = await axios.get(
             `http://localhost:3000/gallery/${encodeURIComponent(username)}`
           );
-          console.log("User's saved pictures", response.data);
+        
           setSavedPictures(response.data);
         } catch (error) {
           console.error("Failed to get user's saved pictures", error);

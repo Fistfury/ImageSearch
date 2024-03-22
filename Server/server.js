@@ -63,7 +63,6 @@ app.post("/gallery", (req, res) => {
 });
 
 app.get("/gallery/:username", (req, res) => {
-  console.log(req.params);
   const username = req.params.username;
   const userObj = users.find((u) => u.user === username);
 

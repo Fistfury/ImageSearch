@@ -18,8 +18,6 @@ export const SearchResults = ({ items }: SearchResultsProps) => {
   const { user } = useAuth0();
 
   const handleImageClick = async (item: Item) => {
-    console.log("Image clicked", item);
-    console.log("Image byteSize", item.image.byteSize);
     try {
       const response = await axios.post("http://localhost:3000/gallery", {
         user: user?.name,

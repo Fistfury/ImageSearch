@@ -4,7 +4,7 @@ import { Item } from "./SearchResults";
 import axios from "axios";
 import {MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-// SökMotorId = "34f14d92fbdae4dc1"
+
 interface ImageAppProps {
   setSearchResults: (value: Item[] | null) => void;
 }
